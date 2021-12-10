@@ -5,6 +5,12 @@ const userResolver = {
                 return await dataSources.authAPI.getUser(userId);
             else
                 return null;
+        },
+        userOtherAccounts: async(_, {userId}, { dataSources, userIdToken }) => {
+            if(userId == userIdToken)
+                return await dataSources.authAPI.getOtherAccounts(userId);
+            else
+                return null;
         }
     },
     Mutation: {

@@ -15,7 +15,15 @@ const transactionResolver = {
                 return transaction;
             else
                 return null;
-        }
+        },
+        transactionUsersDestiny: async(_, { username }, { dataSources, userIdToken}) => {
+            usernameToken = (await dataSources.authAPI.getUser(userIdToken)).username
+            if(username == usernameToken) 
+                return await dataSources.accountAPI.transactionsRecipientsUsernames(username);
+            else
+                return null;
+        }, 
+        
     },
     Mutation: {
         createTransaction: async(_, { transaction }, { dataSources, userIdToken }) => {
@@ -34,8 +42,13 @@ const transactionResolver = {
                 return null;
 
         },
-        deleteTransaction: async(_, { username }, { dataSources, userIdToken }) => {
-            usernameToken = (await dataSources.authAPI.getUser(userIdToken)).username
+        deleteTransaction: async(_, { transactionId }, { dataSources, userIdToken }) => {
+            usernameToken       = (await dataSources.authAPI.getUser(userIdToken)).username
+            usernameTransaction = (await dataSources.accountAPI.transactionsById(transactionId)).usernameOrigin
+            if(usernameToken == usernameTransaction) 
+                return await dataSources.accountAPI.deleteTransaction(transactionId);
+            else
+                return null;
         }
     }
 };

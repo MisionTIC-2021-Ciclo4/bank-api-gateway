@@ -28,6 +28,10 @@ class AuthAPI extends RESTDataSource {
         return await this.delete(`/user/delete/${userId}/`);
     }
 
+    async getOtherAccounts(userId){
+        return await this.get(`/user/other_accounts/${userId}/`);
+    }
+
     async authRequest(credentials){
         credentials = new Object(credentials);
         return await this.post('/login/', credentials);

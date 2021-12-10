@@ -32,6 +32,12 @@ const authTypes = gql `
         username:String!
         name    :String!
         email   :String!
+        timeZone:String!
+    }
+
+    type OtherAccounts{
+        id      :Int!
+        username:String!
     }
 
     input UserUpdate{
@@ -41,15 +47,16 @@ const authTypes = gql `
     }
 
     type Query {
-        userDetailById(userId:Int!):UserDetail!
+        userDetailById(userId:Int!)   :UserDetail!
+        userOtherAccounts(userId:Int!):[OtherAccounts]
     }
 
     type Mutation{
-        signUpUser(userInput:SignUpInput):Tokens!
+        signUpUser(userInput:SignUpInput)   :Tokens!
         logIn(credentials:CredentialsInput!):Tokens!
-        refreshToken(token:Refresh!):Access!
-        updateUser(user:UserUpdate!):UserDetail!
-        deleteUser(userId:String!):String!
+        refreshToken(token:Refresh!)        :Access!
+        updateUser(user:UserUpdate!)        :UserDetail!
+        deleteUser(userId:Int!)             :String!
     }
 `;
 module.exports = authTypes;
